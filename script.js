@@ -6,6 +6,15 @@ const countChars=document.getElementById("countChars");
 const countWords=document.getElementById("countWords");
 const countLines=document.getElementById("countLines");
 
+/*********** DICIONÁRIO DE RIMAS ***********/
+const rhymeDict = {
+  "ão": ["coração","visão","canção","mão","paisão","limão","melão","paixão"],
+  "ar": ["amar","cantar","voar","pular","sonhar","falar","pesar","chorar"],
+  "er": ["viver","saber","aprender","dizer","correr","mexer","beber"],
+  "or": ["amor","dor","valor","temor","rumor","motor","rigor"],
+  "im": ["assim","enfim","ruim","cem","bem","também","jardim","mim"],
+};
+
 /*********** contagem ***********/
 function countSyllables(line){
   let l=line.toLowerCase()
