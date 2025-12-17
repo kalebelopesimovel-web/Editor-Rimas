@@ -1,68 +1,141 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Editor – Rimas Avançado</title>
+document.addEventListener("DOMContentLoaded", ()=>{
 
-  <!-- importação externa CSS -->
-  <link rel="stylesheet" href="style.css">
 
-  <!-- importação externa JS -->
-  <script defer src="script.js"></script>
-</head>
+/******** referências ********/
+const editor=document.getElementById("editor");
+const meterPanel=document.getElementById("meterPanel");
+const countChars=document.getElementById("countChars");
+const countWords=document.getElementById("countWords");
+const countLines=document.getElementById("countLines");
+const suggestions=document.getElementById("suggestions");
 
-<body>
 
-<!-- menu esquerdo -->
-<div id="sidebar">
-  <div class="option" id="optView">Ver marcações</div>
-  <div class="option" id="optAuto">Auto Rimas</div>
-  <div class="option" id="optAutoF">Auto Fonético</div>
-</div>
+/*********** DICIONÁRIO DE RIMAS ***********/
+const rhymeDict = {
+  "ão": ["coração","visão","canção","mão","limão","melão","paixão"],
+  "ar": ["amar","cantar","voar","sonhar","gritar","chorar"],
+  "er": ["viver","saber","correr","mexer","dizer","beber"],
+  "or": ["amor","dor","calor","valor","motor","rigor"],
+  "im": ["assim","enfim","ruim","fim","jardim","mim","assim"],
+};
 
-<!-- área central -->
-<div id="main">
 
-  <div id="toolbar">
-    <button class="btn" id="btnMark">Marcar</button>
-    <button class="btn" id="btnUnmark">Desmarcar</button>
-    <button class="btn" id="exportTXT">Export TXT</button>
-    <button class="btn" id="exportHTML">Export HTML</button>
-    <button class="btn" id="saveText">Salvar</button>
-    <button class="btn" id="loadText">Carregar</button>
-  </div>
+/*********** pega última palavra ***********/
+function getLastWord(){
+  let text = editor.innerText.trim();
+  if(!text) return "";
+  let words=text.split(/\s+/);
+  return words[words.length-1].toLowerCase();
+}
 
-  <div id="paletteInline"></div>
 
-  <div id="editor" contenteditable="true"></div>
+/*********** gera sugestões ***********/
+function getSuggestions(){
+  let w=getLastWord();
+  if(w.length<2)return [];
+  
+  let end = w.slice(-2);
+  return rhymeDict[end] || [];
+}
 
-  <div id="player">
-    <button id="playBtn">▶</button>
-    <div id="progress"><div id="bar"></div></div>
-  </div>
 
-  <span id="selectBeat" style="cursor:pointer;margin-top:5px">
-    Selecionar BEAT
-  </span>
-  <input type="file" id="file" accept="audio/*" hidden>
-  <audio id="audio"></audio>
+/*********** contagem ***********/
+function countSyllables(line){
+  let l=line.toLowerCase()
+     .normalize("NFD")
+     .replace(/[\u0300-\u036f]/g,"")
+     .replace(/[^a-z\s]/g,"");
 
-</div>
+  if(!l.trim())return 0;
 
-<!-- painel direita -->
-<div id="rightPanel">
-  <div id="meterTitle">📏 Sílabas por linha</div>
-  <div id="meterPanel"></div>
-  <div>
-    Letras: <span id="countChars">0</span><br>
-    Palavras: <span id="countWords">0</span><br>
-    Linhas: <span id="countLines">0</span>
-  </div>
+  let vowels=l.match(/[aeiou]+/g);
+  if(!vowels)return 0;
 
-  <hr style="border-color:#0ff; margin:6px 0">
-  <div id="suggestions" style="color:#0ff;font-size:14px"></div>
+  let count=vowels.length;
+  if(count>1)count--;
+  return count;
+}
 
-</div>
+function updateMeter(){
+  let raw = editor.innerText||"";
+  raw = raw.replace(/\r/g,"");
 
-</body>
-</html>
+  let lines = raw.split("\n");
+  while(lines.length>1 && !lines[lines.length-1].trim()){
+    lines.pop();
+  }
+
+  meterPanel.textContent =
+    lines.map(countSyllables).join("\n");
+
+  const words = raw.match(/[a-záéíóúâêôãõç]+/gi) || [];
+  const chars = (raw.match(/[a-záéíóúâêôãõç]/gi) || []).length;
+
+  countLines.textContent = lines.length;
+  countWords.textContent = words.length;
+  countChars.textContent = chars;
+}
+
+
+/*********** marcar manual ***********/
+let savedRange=null;
+const paletteInline=document.getElementById("paletteInline");
+
+function saveSelection(){
+  let sel=window.getSelection();
+  if(!sel||sel.isCollapsed)return null;
+  return sel.getRangeAt(0).cloneRange();
+}
+
+function unwrap(root){
+  root.querySelectorAll("span[data-manual]").forEach(
+    s=>s.replaceWith(...s.childNodes)
+  );
+}
+
+function applyColor(hex){
+  if(!savedRange)return;
+  let frag=savedRange.extractContents();
+  unwrap(frag);
+
+  let span=document.createElement("span");
+  span.dataset.manual="1";
+  span.style.background=hex;
+  span.style.padding="1px 3px";
+  span.appendChild(frag);
+
+  savedRange.insertNode(span);
+  savedRange=null;
+  paletteInline.style.display="none";
+}
+
+btnMark.onclick=()=>{
+  savedRange=saveSelection();
+  if(savedRange) paletteInline.style.display="grid";
+};
+
+btnUnmark.onclick=()=>{
+  savedRange=saveSelection();
+  if(!savedRange)return;
+  let frag=savedRange.extractContents();
+  unwrap(frag);
+  savedRange.insertNode(frag);
+};
+
+
+/******** paleta ********/
+[
+  "#ef4444","#fb923c","#facc15",
+  "#4ade80","#06b6d4","#38bdf8",
+  "#2563eb","#6366f1","#d946ef",
+  "#f43f5e"
+].forEach(hex=>{
+  let d=document.createElement("div");
+  d.className="color";
+  d.style.background=hex;
+  d.onclick=()=>applyColor(hex);
+  paletteInline.appendChild(d);
+});
+
+
+/*********** funções de rimas autom***
