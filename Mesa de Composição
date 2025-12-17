@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Editor – Rimas Avançado</title>
-<link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <title>Editor – Rimas Avançado</title>
 
+  <!-- importação externa CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- importação externa JS -->
+  <script defer src="script.js"></script>
 </head>
 
 <body>
@@ -54,11 +57,12 @@
     Letras: <span id="countChars">0</span><br>
     Palavras: <span id="countWords">0</span><br>
     Linhas: <span id="countLines">0</span>
-<hr style="border-color:#0ff">
-<div id="suggestions" style="color:#0ff;font-size:14px"></div>
   </div>
-</div>
 
+  <hr style="border-color:#0ff; margin:6px 0">
+  <div id="suggestions" style="color:#0ff;font-size:14px"></div>
+
+</div>
 
 </body>
 </html>
