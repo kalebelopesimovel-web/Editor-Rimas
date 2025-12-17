@@ -1,134 +1,133 @@
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  font-family:sans-serif;
+  background:#050505;
+  color:#8ffcff;
+}
 
-corpo{
-  margem:0;
-  altura:100vh;
-  exibir: flex;
-  font-family: sans- serif;
-  fundo:#050505;
-  cor:#8ffcff;
-O}
-
-/******** MENU ESQUERDO *******/
+/******** MENU ESQUERDO ********/
 #sidebar{
-  largura:210px;
-  estofamento:16px;
-  exibir: flex;
-  flex-direção: coluna;
-  lacuna:10px;
-  fronteira-direita:2px sólido rgba(0,255,255,3);
-O}
-.opção{
-  estofamento:10px;
-  borda:1px sólido rgba(0,255,255,4);
+  width:210px;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  border-right:2px solid rgba(0,255,255,.3);
+}
+.option{
+  padding:10px;
+  border:1px solid rgba(0,255,255,.4);
   border-radius:6px;
-  cursor: ponteiro;
-  transição:.2s;
-O}
-.opção.ativo{
-  fundo:#00ffff55;
-  borda-color:#0ff;
-  cor: preto;
-O}
+  cursor:pointer;
+  transition:.2s;
+}
+.option.active{
+  background:#00ffff55;
+  border-color:#0ff;
+  color:black;
+}
 
-/******** centro *******/
+/******** centro ********/
 #main{
   flex:1;
-  estofamento:18px;
-  exibir: flex;
-  flex-direção: coluna;
-O}
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+}
 
-/*** barra de ferramentas ***/
+/*** toolbar ***/
 #toolbar{
-  exibir: flex;
-  lacuna:10px;
+  display:flex;
+  gap:10px;
   margin-bottom:10px;
-  flex-wrap: envoltório;
-O}
+  flex-wrap:wrap;
+}
 
 .btn{
-  preenchimento:6 px 12 px;
-  cursor: ponteiro;
-  cor:#8ffcff;
-  antecedentes:rgba (0,255,255,.08);
-  borda:1px sólido rgba(0,255,255,4);
+  padding:6px 12px;
+  cursor:pointer;
+  color:#8ffcff;
+  background:rgba(0,255,255,.08);
+  border:1px solid rgba(0,255,255,.4);
   border-radius:8px;
-O}
+}
 
 /*** editor ***/
 #editor{
   flex:1;
-  estofamento:15px;
+  padding:15px;
   border-radius:8px;
-  fundo:branco;
-  fonte- tamanho:18px;
-  cor: preto;
+  background:white;
+  font-size:18px;
+  color:black;
   overflow-y:auto;
-O}
+}
 
-/*** palata em linha ***/
+/*** paleta inline ***/
 #paletteInline{
-  exibir:nenhum;
-  estofamento:8px;
-  antecedentes:rgba (0,255,255,.15);
+  display:none;
+  padding:8px;
+  background:rgba(0,255,255,.15);
   border-radius:6px;
-  grade- template- columns: repetição(10,22px);
-  lacuna:6px;
+  grid-template-columns:repeat(10,22px);
+  gap:6px;
   margin-bottom:10px;
-O}
-.cor{
-  largura:22px; altura:22px;
+}
+.color{
+  width:22px;height:22px;
   border-radius:4px;
-  cursor: ponteiro;
-O}
+  cursor:pointer;
+}
 
-/*** batida do jogador ***/
+/*** player beat ***/
 #player{
-  exibir: flex;
-  lacuna:10px;
-  align- itens: centro;
-  estofamento:8px;
-  margin- top:10px;
-  fundo:preto;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:8px;
+  margin-top:10px;
+  background:black;
   border-radius:8px;
-  borda:1px sólido rgba(0,255,255,3);
-O}
+  border:1px solid rgba(0,255,255,.3);
+}
 
 #progress{
   flex:1;
-  altura:6px;
-  antecedentes:#222;
+  height:6px;
+  background:#222;
   border-radius:4px;
-O}
+}
 #bar{
-  largura:0%;
-  altura:100%;
-  fundo:#0ff;
-O}
+  width:0%;
+  height:100%;
+  background:#0ff;
+}
 
-/******** painel métrica direita *******/
+/******** painel métrica direita ********/
 #rightPanel{
-  largura:170px;
-  estofamento:16px;
-  antecedentes:#0008;
-  border- left:2px sólido rgba(0,255,255,3);
-  exibir: flex;
-  flex-direção: coluna;
-  lacuna:12px;
-O}
+  width:170px;
+  padding:16px;
+  background:#0008;
+  border-left:2px solid rgba(0,255,255,.3);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
 
 #meterTitle{
-  font- weight:negrito;
-  cor:#0ff;
-O}
+  font-weight:bold;
+  color:#0ff;
+}
 #meterPanel{
-  espaço-branco:pre;
-O}
+  white-space:pre;
+}
 
 /******** esconder marcações ********/
-.ocultar-marcas span[data-manual],
-.ocultar-marcas span.autoRima,
-.ocultar-marcas span.autoF{
-  antecedentes:nenhuma!importante;
-O}
+.hide-marks span[data-manual],
+.hide-marks span.autoRima,
+.hide-marks span.autoF{
+  background:none!important;
+}
 
