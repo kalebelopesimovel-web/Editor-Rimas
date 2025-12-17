@@ -14,6 +14,12 @@ const rhymeDict = {
   "or": ["amor","dor","valor","temor","rumor","motor","rigor"],
   "im": ["assim","enfim","ruim","cem","bem","também","jardim","mim"],
 };
+function getLastWord(){
+  let text = editor.innerText.trim();
+  if(!text) return "";
+  let words = text.split(/\s+/);
+  return words[words.length - 1].toLowerCase();
+}
 
 /*********** contagem ***********/
 function countSyllables(line){
