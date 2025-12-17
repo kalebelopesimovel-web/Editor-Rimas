@@ -65,7 +65,16 @@ function updateMeter(){
   countChars.textContent = chars;
 }
 
-editor.addEventListener("input",updateMeter);
+editor.addEventListener("input",()=>{
+  updateMeter();
+  
+  let sug = getSuggestions();
+  suggestions.innerHTML = 
+    sug.length
+    ? "<b>Sugestões:</b><br>• " + sug.join("<br>• ")
+    : "";
+});
+
 
 
 /*********** marcar manual ***********/
