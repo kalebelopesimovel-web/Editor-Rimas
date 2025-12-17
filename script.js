@@ -20,6 +20,13 @@ function getLastWord(){
   let words = text.split(/\s+/);
   return words[words.length - 1].toLowerCase();
 }
+function getSuggestions(){
+  let w = getLastWord();
+  if(w.length < 2) return [];
+
+  let end = w.slice(-2);
+  return rhymeDict[end] || [];
+}
 
 /*********** contagem ***********/
 function countSyllables(line){
